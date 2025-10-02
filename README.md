@@ -33,3 +33,11 @@ py manage.py startapp api
 ```
 pip install -r requirements.txt
 ```
+## Install react vite
+```
+npm create vite@latest
+```
+## Install CORS
+```
+pip install django-cors-headers
+```
