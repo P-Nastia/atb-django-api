@@ -19,8 +19,6 @@ from django.shortcuts import redirect
 from django.urls import include, path
 
 urlpatterns = [
-    path('', lambda request: redirect('api/')), 
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
-    path('api-auth/',include('rest_framework.urls'))
+    path('api/', include('users.urls')),
 ]

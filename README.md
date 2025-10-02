@@ -21,9 +21,15 @@ py manage.py migrate
 
 ## Create user api
 ```
+py manage.py startapp users
+
 pip install djangorestframework
 pip install markdown
 pip install django-filter 
 
-python manage.py startapp api
+py manage.py startapp api
+```
+## Install requirements
+```
+pip install -r requirements.txt
 ```
