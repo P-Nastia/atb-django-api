@@ -18,3 +18,12 @@ py manage.py runserver 8099
 pip install psycopg2-binary
 py manage.py migrate
 ```
+
+## Create user api
+```
+pip install djangorestframework
+pip install markdown
+pip install django-filter 
+
+python manage.py startapp api
+```
