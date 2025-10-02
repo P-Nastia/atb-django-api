@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'atbapi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'neondb',
         'HOST': 'ep-orange-river-agf1l74w-pooler.c-2.eu-central-1.aws.neon.tech',
         'USER': 'neondb_owner',
