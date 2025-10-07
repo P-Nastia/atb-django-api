@@ -3,7 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import CustomUser
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserRegistrationSerializer
+from rest_framework import status
 
 FIRST_NAMES = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"]
 LAST_NAMES = ["Smith", "Johnson", "Brown", "Taylor", "Anderson", "Lee"]
@@ -36,10 +37,21 @@ def generate_random_users(n=5):
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    def get_serializer_class(self):
+        if self.action == 'register':
+            return UserRegistrationSerializer
+        return UserSerializer
 
     @action(detail=False, methods=["post"])
     def generate(self, request):
         users = generate_random_users(5)
         serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=["post"])
+    def register(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User registered successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

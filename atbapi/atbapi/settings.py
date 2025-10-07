@@ -125,6 +125,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    str(BASE_DIR / 'static'),
+]
+
+IMAGES_URL = '/images/'
+
+IMAGES_ROOT = BASE_DIR  / 'images'
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
