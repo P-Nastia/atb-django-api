@@ -1,6 +1,6 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {createBaseQuery} from "../utils/createBaseQuery";
-import type {ILoginResponse, Index} from "../types/users";
+import type {ILoginResponse, IUserItem} from "../types/users";
 import {serialize} from "object-to-formdata";
 
 export interface IRegisterFormData {
@@ -19,7 +19,7 @@ export const userService = createApi({
     tagTypes: ['Users'],
 
     endpoints: (builder) => ({
-        getUsers: builder.query<Index[], void>({
+        getUsers: builder.query<IUserItem[], void>({
             query: () => {
                 return {
                     url: '',
@@ -57,6 +57,7 @@ export const userService = createApi({
                     body: formData
                 };
             },
+            invalidatesTags: ["Users"]
         }),
     }),
 })

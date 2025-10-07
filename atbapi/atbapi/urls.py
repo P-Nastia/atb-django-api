@@ -26,3 +26,4 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.IMAGES_URL, document_root=settings.IMAGES_ROOT)
+urlpatterns += static(settings.AVATARS_URL, document_root=settings.AVATARS_ROOT)

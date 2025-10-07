@@ -143,6 +143,10 @@ IMAGES_URL = '/images/'
 
 IMAGES_ROOT = BASE_DIR  / 'images'
 
+AVATARS_URL = '/avatars/'
+
+AVATARS_ROOT = BASE_DIR / 'avatars'
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 

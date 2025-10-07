@@ -1,5 +1,5 @@
 
-import type {Index} from "../../../types/users";
+import type {IUserItem} from "../../../types/users";
 import {useGetUsersQuery} from "../../../services/userService.ts";
 import LoadingOverlay from "../../../components/loading";
 import UserListItem from "./UserListItem.tsx";
@@ -7,9 +7,9 @@ import UserListItem from "./UserListItem.tsx";
 const UsersListPage = () => {
 
     const {data: users, isLoading}=useGetUsersQuery();
-    console.log("isLoading",isLoading);
+    console.log("listUsers",users);
 
-    const contentUsers=users?.map((user:Index)=>{
+    const contentUsers=users?.map((user:IUserItem)=>{
         return(
             <UserListItem user={user}></UserListItem>
         )
@@ -24,6 +24,9 @@ const UsersListPage = () => {
                     <tr>
                         <th scope="col" className="px-6 py-3 bg-yellow-200">
                             Id
+                        </th>
+                        <th scope="col" className="px-6 py-3 bg-yellow-200">
+                            Image
                         </th>
                         <th scope="col" className="px-6 py-3 bg-yellow-200">
                             Full name
