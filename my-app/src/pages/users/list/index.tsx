@@ -1,5 +1,5 @@
 
-import type {IUserItem} from "../../../types/users/IUserItem.ts";
+import type {Index} from "../../../types/users";
 import {useGetUsersQuery} from "../../../services/userService.ts";
 import LoadingOverlay from "../../../components/loading";
 import UserListItem from "./UserListItem.tsx";
@@ -9,7 +9,7 @@ const UsersListPage = () => {
     const {data: users, isLoading}=useGetUsersQuery();
     console.log("isLoading",isLoading);
 
-    const contentUsers=users?.map((user:IUserItem)=>{
+    const contentUsers=users?.map((user:Index)=>{
         return(
             <UserListItem user={user}></UserListItem>
         )

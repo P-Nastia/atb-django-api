@@ -1,8 +1,8 @@
 
-import type { IUserItem} from "../../../types/users/IUserItem.ts";
+import type { Index} from "../../../types/users";
 
 interface Props{
-    user:IUserItem
+    user:Index
 }
 const UserListItem: ReactFC<Props>=({user})=>{
     return (

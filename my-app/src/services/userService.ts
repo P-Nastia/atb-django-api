@@ -1,6 +1,7 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {createBaseQuery} from "../utils/createBaseQuery";
-import type {IUserItem} from "../types/users/IUserItem";
+import type {ILoginResponse, Index} from "../types/users";
+import {serialize} from "object-to-formdata";
 
 export interface IRegisterFormData {
     username: string;
@@ -18,7 +19,7 @@ export const userService = createApi({
     tagTypes: ['Users'],
 
     endpoints: (builder) => ({
-        getUsers: builder.query<IUserItem[], void>({
+        getUsers: builder.query<Index[], void>({
             query: () => {
                 return {
                     url: '',
@@ -27,7 +28,7 @@ export const userService = createApi({
             },
             providesTags: ["Users"]
         }),
-        registerUser: builder.mutation<void, IRegisterFormData>({
+        registerUser: builder.mutation<ILoginResponse, IRegisterFormData>({
 
             query: (credentials) => {
                 const formData = new FormData();
@@ -45,11 +46,23 @@ export const userService = createApi({
                 };
             },
             invalidatesTags: ["Users"]
-        })
+        }),
+        registerAntd: builder.mutation<ILoginResponse, IRegisterFormData>({
+            query: (credentials) => {
+                const formData = serialize(credentials);
+
+                return {
+                    url: 'register/',
+                    method: 'POST',
+                    body: formData
+                };
+            },
+        }),
     }),
 })
 
 export const {
     useGetUsersQuery,
     useRegisterUserMutation,
+    useRegisterAntdMutation
 } = userService;
