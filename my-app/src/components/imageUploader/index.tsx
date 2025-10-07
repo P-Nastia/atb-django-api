@@ -22,7 +22,7 @@ async function getCroppedImgFromCropper(
     imageSrc: string,
     crop: Area,
     rotation = 0
-): Promise<string> {
+): Promise<File | null> {
     const image = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d")!;
@@ -50,14 +50,18 @@ async function getCroppedImgFromCropper(
 
     return new Promise((resolve) => {
         canvas.toBlob((blob) => {
-            if (!blob) return;
-            const url = URL.createObjectURL(blob);
-            resolve(url);
+            if (!blob) return resolve(null);
+            const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+            resolve(file);
         }, "image/jpeg");
     });
 }
+interface ImageUploaderProps {
+    onImageCropped: (file: File) => void;
+}
 
-const ImageUploader: React.FC = () => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageCropped }) => {
+
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [croppedImage, setCroppedImage] = useState<string | null>(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -79,12 +83,12 @@ const ImageUploader: React.FC = () => {
 
     const onSave = async () => {
         if (!imageSrc || !croppedAreaPixels) return;
-        const cropped = await getCroppedImgFromCropper(
-            imageSrc,
-            croppedAreaPixels,
-            rotation
-        );
-        setCroppedImage(cropped);
+        const file = await getCroppedImgFromCropper(imageSrc, croppedAreaPixels, rotation);
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setCroppedImage(url); // keep preview
+            onImageCropped(file); // pass back to parent
+        }
         setModalOpen(false);
     };
 

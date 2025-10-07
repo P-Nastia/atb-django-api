@@ -2,6 +2,16 @@ import {createApi} from "@reduxjs/toolkit/query/react";
 import {createBaseQuery} from "../utils/createBaseQuery";
 import type {IUserItem} from "../types/users/IUserItem";
 
+export interface IRegisterFormData {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    password_confirm: string;
+    imageFile: File | null;
+}
+
 export const userService = createApi({
     reducerPath: 'userService',
     baseQuery: createBaseQuery('users'),
@@ -17,10 +27,29 @@ export const userService = createApi({
             },
             providesTags: ["Users"]
         }),
+        registerUser: builder.mutation<void, IRegisterFormData>({
 
+            query: (credentials) => {
+                const formData = new FormData();
+
+                Object.entries(credentials).forEach(([key, value]) => {
+                    if (value !== null && value !== undefined) {
+                        formData.append(key, value);
+                    }
+                });
+
+                return {
+                    url: 'register/',
+                    method: 'POST',
+                    body: formData,
+                };
+            },
+            invalidatesTags: ["Users"]
+        })
     }),
 })
 
 export const {
     useGetUsersQuery,
+    useRegisterUserMutation,
 } = userService;
