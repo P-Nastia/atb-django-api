@@ -95,6 +95,14 @@ const RegisterForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item
+                label="Password Confirmation"
+                name="password_confirm"
+                rules={[{ required: true, message: "Please enter your password again" }]}
+            >
+                <Input.Password placeholder="********" />
+            </Form.Item>
+
+            <Form.Item
                 label="Зображення"
                 required
                 validateStatus={imageError ? "error" : ""}
