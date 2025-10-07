@@ -10,23 +10,23 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
+    password_confirm = serializers.CharField(write_only=True, required=True)
 
     image = serializers.ImageField(write_only=True, required=False)
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'password', 'password2', 'image')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password', 'password_confirm', 'image')
 
     def validate(self, data):
-        if data['password'] != data['password2']:
+        if data['password'] != data['password_confirm']:
             raise serializers.ValidationError({"password": "Passwords must match."})
         return data
 
     def create(self, validated_data):
         image = validated_data.pop('image', None)
         password = validated_data.pop('password')
-        validated_data.pop('password2')
+        validated_data.pop('password_confirm')
 
         user = CustomUser(**validated_data)
         user.set_password(password)

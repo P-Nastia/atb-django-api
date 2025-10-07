@@ -3,10 +3,10 @@ import ImageUploader from "../../../components/imageUploader";
 import InputField from "../../../components/inputFormTemplate";
 import {type IRegisterFormData, useRegisterUserMutation} from "../../../services/userService";
 import LoadingOverlay from "../../../components/loading";
-//import {useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 
 const UserRegisterPage: React.FC = () => {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const [formData, setFormData] = React.useState<IRegisterFormData>({
         username: "",
         first_name: "",
@@ -14,7 +14,7 @@ const UserRegisterPage: React.FC = () => {
         email: "",
         password: "",
         password_confirm: "",
-        imageFile: null,
+        image: null,
     });
     const[register,{isLoading}] = useRegisterUserMutation();
 
@@ -28,7 +28,7 @@ const UserRegisterPage: React.FC = () => {
             e.preventDefault();
             const result = await register(formData).unwrap();
             console.log(result);
-            //navigate('/');
+            navigate('/');
         } catch (error) {
             console.error(error);
         }
@@ -36,7 +36,12 @@ const UserRegisterPage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center py-5">
-        <div className="w-full md:w-1/2 py-10 px-5 md:px-10 items-center">
+            <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden max-w-4xl">
+                <div className="md:flex w-full">
+                    <div className="hidden md:block w-1/2 bg-yellow-500 py-10 px-10">
+                        <h2 className="text-white font-bold text-2xl">Welcome!</h2>
+                    </div>
+        <div className="w-full md:w-1/2 py-10 px-5 md:px-10 ">
             {isLoading && <LoadingOverlay />}
             <div className="text-center mb-10">
                 <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
@@ -44,62 +49,46 @@ const UserRegisterPage: React.FC = () => {
             </div>
 
             <ImageUploader
-                onImageCropped={(file) => setFormData(prev => ({ ...prev, imageFile: file }))}
+                onImageCropped={(file) => setFormData(prev => ({ ...prev, image: file }))}
             />
 
             <div>
-                <div className="w-1/2 px-3 mb-5">
                     <InputField
                         name="username" label="Nickname" placeholder="john_doe" value={formData.username} onChange={handleChange}
                     />
-                </div>
 
-                <div className="w-1/2 px-3 mb-5">
                     <InputField
                         name="first_name" label="First name" placeholder="John" value={formData.first_name} onChange={handleChange}
                     />
-                </div>
 
-                <div className="w-1/2 px-3 mb-5">
                     <InputField
                         name="last_name" label="Last name" placeholder="Doe" value={formData.last_name} onChange={handleChange}
                     />
-                </div>
-            </div>
 
-            <div className="flex -mx-3">
-                <div className="w-full px-3 mb-5">
                     <InputField
                         name="email" label="Email" type="email"  placeholder="johnsmith@example.com" value={formData.email} onChange={handleChange}
                     />
-                </div>
-            </div>
 
-            <div className="flex -mx-3">
-                <div className="w-full px-3 mb-5">
                     <InputField
                         name="password" label="Password" type="password" placeholder="********" value={formData.password} onChange={handleChange}
                     />
-                </div>
-            </div>
 
-            <div className="flex -mx-3">
-                <div className="w-full px-3 mb-5">
                     <InputField
                         name="password_confirm"  label="Confirm Password" type="password" placeholder="********" value={formData.password_confirm} onChange={handleChange}
                     />
-                </div>
             </div>
 
             <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
-                    <button onClick={handleSubmit} className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+                    <button onClick={handleSubmit} className="block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-700 text-white rounded-lg px-3 py-3 font-semibold">
                         REGISTER NOW
                     </button>
                 </div>
             </div>
         </div>
         </div>
+                </div>
+            </div>
     );
 };
 

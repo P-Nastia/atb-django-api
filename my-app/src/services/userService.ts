@@ -9,7 +9,7 @@ export interface IRegisterFormData {
     email: string;
     password: string;
     password_confirm: string;
-    imageFile: File | null;
+    image: File | null;
 }
 
 export const userService = createApi({
