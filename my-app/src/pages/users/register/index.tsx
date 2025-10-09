@@ -1,9 +1,10 @@
 import React from "react";
-import ImageUploader from "../../../components/imageUploader";
+//import ImageUploader from "../../../components/imageUploader";
 import InputField from "../../../components/inputFormTemplate";
 import {type IRegisterFormData, useRegisterUserMutation} from "../../../services/userService";
 import LoadingOverlay from "../../../components/loading";
 import {useNavigate} from "react-router";
+import CroppedImageUploader from "../../../components/uploaders/advancedCropper.tsx";
 
 const UserRegisterPage: React.FC = () => {
     const navigate = useNavigate();
@@ -48,8 +49,13 @@ const UserRegisterPage: React.FC = () => {
                 <p>Enter your information to register</p>
             </div>
 
-            <ImageUploader
-                onImageCropped={(file) => setFormData(prev => ({ ...prev, image: file }))}
+            {/*<ImageUploader*/}
+            {/*    onImageCropped={(file) => setFormData(prev => ({ ...prev, image: file }))}*/}
+            {/*/>*/}
+
+            <CroppedImageUploader
+                round={true}
+                onImageCropped={(file:any) => setFormData(prev => ({ ...prev, image: file }))}
             />
 
             <div>
