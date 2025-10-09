@@ -12,6 +12,7 @@ const CroppedImageUploader: React.FC<CroppedImageUploaderProps> = ({ onImageCrop
     const [imageSrc, setImageSrc] = useState<string | null>(null); // full image
     const [croppedImageUrl, setCroppedImageUrl] = useState<string | null>(null); // for preview
     const cropperRef = useRef<CropperRef>(null);
+    const [rotation, setRotation] = useState(0);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -22,6 +23,13 @@ const CroppedImageUploader: React.FC<CroppedImageUploaderProps> = ({ onImageCrop
                 setCroppedImageUrl(null);
             };
             reader.readAsDataURL(file);
+        }
+    };
+
+    const handleRotate = (angle: number) => {
+        if (cropperRef.current) {
+            cropperRef.current.rotateImage(angle);
+            setRotation((prev) => (prev + angle) % 360);
         }
     };
 
@@ -56,6 +64,23 @@ const CroppedImageUploader: React.FC<CroppedImageUploaderProps> = ({ onImageCrop
                             className="rounded border"
                             style={{ height: 300, width: "100%" }}
                         />
+                    </div>
+                    <div className="flex items-center justify-center space-x-4 my-2">
+                        <button
+                            type="button"
+                            onClick={() => handleRotate(-90)}
+                            className="px-3 py-1 bg-gray-300 rounded"
+                        >
+                            Rotate Left
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleRotate(90)}
+                            className="px-3 py-1 bg-gray-300 rounded"
+                        >
+                            Rotate Right
+                        </button>
+                        <span>Rotation: {rotation}°</span>
                     </div>
                     <button
                         type="button"
