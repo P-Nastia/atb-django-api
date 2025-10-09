@@ -1,6 +1,12 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {createBaseQuery} from "../utils/createBaseQuery";
-import type {ILoginResponse, IUserItem} from "../types/users";
+import type {
+    ILoginRequest,
+    ILoginResponse,
+    IResetPasswordConfirm,
+    IResetPasswordRequest,
+    IUserItem
+} from "../types/users";
 import {serialize} from "object-to-formdata";
 
 export interface IRegisterFormData {
@@ -59,11 +65,47 @@ export const userService = createApi({
             },
             invalidatesTags: ["Users"]
         }),
+        resetPasswordRequest: builder.mutation<void, IResetPasswordRequest>({
+            query: (credentials) => {
+                const formData = serialize(credentials);
+
+                return {
+                    url: 'password-reset-request/',
+                    method: 'POST',
+                    body: formData,
+                }
+            }
+        }),
+        resetPassword: builder.mutation<void, IResetPasswordConfirm>({
+            query: (credentials) => {
+                const formData = serialize(credentials);
+
+                return {
+                    url: 'password-reset-confirm/',
+                    method: 'POST',
+                    body: formData,
+                }
+            }
+        }),
+        login: builder.mutation<ILoginResponse, ILoginRequest>({
+            query: (credentials) => {
+                const formData = serialize(credentials);
+
+                return {
+                    url: 'login/',
+                    method: 'POST',
+                    body: formData,
+                }
+            }
+        })
     }),
 })
 
 export const {
     useGetUsersQuery,
     useRegisterUserMutation,
-    useRegisterAntdMutation
+    useRegisterAntdMutation,
+    useResetPasswordMutation,
+    useLoginMutation,
+    useResetPasswordRequestMutation
 } = userService;
