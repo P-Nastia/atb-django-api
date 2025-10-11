@@ -5,6 +5,7 @@ import {type IRegisterFormData, useRegisterUserMutation} from "../../../services
 import LoadingOverlay from "../../../components/loading";
 import {useNavigate} from "react-router";
 import CroppedImageUploader from "../../../components/uploaders/advancedCropper.tsx";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 const UserRegisterPage: React.FC = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const UserRegisterPage: React.FC = () => {
         image: null,
     });
     const[register,{isLoading}] = useRegisterUserMutation();
+    const {executeRecaptcha} = useGoogleReCaptcha();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -27,7 +29,10 @@ const UserRegisterPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
-            const result = await register(formData).unwrap();
+            if(!executeRecaptcha) return;
+            const token = await executeRecaptcha('register');
+
+            const result = await register({...formData, recaptcha_token:token}).unwrap();
             console.log(result);
             navigate('/');
         } catch (error) {

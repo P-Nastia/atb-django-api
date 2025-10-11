@@ -17,6 +17,7 @@ export interface IRegisterFormData {
     password: string;
     password_confirm: string;
     image: File | null;
+    recaptcha_token?: string;
 }
 
 export const userService = createApi({

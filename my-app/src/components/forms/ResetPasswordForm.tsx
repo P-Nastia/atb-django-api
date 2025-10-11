@@ -72,7 +72,7 @@ const ResetPasswordForm: React.FC = () => {
                     htmlType="submit"
                     loading={isLoading}
                     block
-                    style={{ height: "40px", fontWeight: 600 }}
+                    style={{ height: "40px", fontWeight: 600, background: "#F59E0B" }}
                 >
                     Змінити пароль
                 </Button>

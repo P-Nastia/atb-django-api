@@ -3,6 +3,8 @@ from rest_framework import viewsets, status, parsers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils.http import urlsafe_base64_decode
+
+from .utils import verify_recaptcha
 from .models import CustomUser
 from .serializers import CustomTokenObtainPairSerializer, UserRegistrationSerializer, UserSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -56,7 +58,20 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'], url_path='register', serializer_class=UserRegistrationSerializer)
+    
     def register(self, request):
+        print('----working register----',request.data)
+        recaptcha_token = request.data.get("recaptcha_token")
+        if not recaptcha_token:
+            return Response({"detail": "Missing reCAPTCHA token"}, status=400)
+
+        result = verify_recaptcha(recaptcha_token)
+        print('-------recaptcha result',result)
+
+        if not result.get("success") or result.get("score", 0) < 0.5:
+            return Response({"detail": "Invalid reCAPTCHA"}, status=400)
+
+
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -71,7 +86,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     @action(detail=False, methods=['post'], url_path='password-reset-request',serializer_class=PasswordResetRequestSerializer)
     def password_reset_request(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
@@ -102,4 +116,22 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     
 class LoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    def post(self, request, *args, **kwargs):
+        print('----working login----',request.data)
+        recaptcha_token = request.data.get("recaptcha_token")
+        if not recaptcha_token:
+            return Response({"detail": "Missing reCAPTCHA token"}, status=400)
+
+        result = verify_recaptcha(recaptcha_token)
+        print('-------recaptcha result',result)
+        if not result.get("success") or result.get("score", 0) < 0.5:
+            return Response({"detail": "Invalid reCAPTCHA"}, status=400)
+
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            return Response({"detail": "Invalid credentials"}, status=401)
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
  
