@@ -41,3 +41,8 @@ npm create vite@latest
 ```
 pip install django-cors-headers
 ```
+
+## Adding google authentication
+```
+pip install google-auth
+```

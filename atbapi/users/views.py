@@ -11,6 +11,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from django.contrib.auth import get_user_model
+from google.oauth2 import id_token
+from rest_framework.views import APIView
+from google.auth.transport import requests
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
+import requests
+
 FIRST_NAMES = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"]
 LAST_NAMES = ["Smith", "Johnson", "Brown", "Taylor", "Anderson", "Lee"]
 DOMAINS = ["example.com", "test.com", "mail.com"]
@@ -135,3 +142,47 @@ class LoginView(TokenObtainPairView):
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
  
+User = get_user_model()
+GOOGLE_CLIENT_ID = "1040298597778-n4q0s8qo4th8anr5jdrme23q8ek6mm5m.apps.googleusercontent.com"
+
+def get_user_info_from_access_token(access_token):
+    response = requests.get(
+        'https://www.googleapis.com/oauth2/v1/userinfo',
+        params={'access_token': access_token}
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+class GoogleLoginAPIView(APIView):
+    parser_classes = [JSONParser, FormParser, MultiPartParser]
+    def post(self, request):
+        access_token = request.data.get("token")
+        print('---------token---------',access_token)
+        if not access_token:
+            return Response({"detail": "Missing token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        userinfo = get_user_info_from_access_token(access_token)
+        if not userinfo:
+            return Response({"detail": "Invalid or expired access token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = userinfo.get("email")
+        first_name = userinfo.get("given_name", "")
+        last_name = userinfo.get("family_name", "")
+        username = email.split("@")[0] if email else None
+
+        if not email:
+            return Response({"detail": "Email not found in token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user, created = User.objects.get_or_create(email=email, defaults={
+            "username": username,
+            "first_name": first_name,
+            "last_name": last_name,
+        })
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        })
