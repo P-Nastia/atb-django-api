@@ -98,6 +98,13 @@ export const userService = createApi({
                     body: formData,
                 }
             }
+        }),
+        loginByGoogle: builder.mutation<ILoginResponse, string>({
+            query: (token) => ({
+                url: 'google/login/',
+                method: 'POST',
+                body: {token}
+            })
         })
     }),
 })
@@ -108,5 +115,6 @@ export const {
     useRegisterAntdMutation,
     useResetPasswordMutation,
     useLoginMutation,
-    useResetPasswordRequestMutation
+    useResetPasswordRequestMutation,
+    useLoginByGoogleMutation,
 } = userService;
