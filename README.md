@@ -46,3 +46,14 @@ pip install django-cors-headers
 ```
 pip install google-auth
 ```
+
+## Working topics REDDIT
+```
+py manage.py startapp topics
+py manage.py makemigrations topics
+py manage.py migrate
+
+py manage.py shell
+from topics.seed_topics import run
+run()
+```
