@@ -181,8 +181,10 @@ class GoogleLoginAPIView(APIView):
             "last_name": last_name,
         })
 
-        refresh = RefreshToken.for_user(user)
+        refresh = CustomTokenObtainPairSerializer.get_token(user)
+        access = refresh.access_token
+
         return Response({
             "refresh": str(refresh),
-            "access": str(refresh.access_token),
-        })
+            "access": str(access),
+        }, status=status.HTTP_200_OK)

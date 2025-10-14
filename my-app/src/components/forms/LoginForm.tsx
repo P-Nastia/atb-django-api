@@ -36,7 +36,8 @@ const LoginForm: React.FC = () => {
         {
             try {
                 console.log("tokenResponse",tokenResponse);
-                await loginByGoogle(tokenResponse.access_token).unwrap();
+                const res = await loginByGoogle(tokenResponse.access_token).unwrap();
+                console.log("res", res);
                 // dispatch(loginSuccess(result.token));
                 navigate('/');
             } catch (error) {
