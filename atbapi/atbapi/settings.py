@@ -65,20 +65,6 @@ MIDDLEWARE = [
 ]
 
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '1040298597778-n4q0s8qo4th8anr5jdrme23q8ek6mm5m.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
-    }
-}
-
-
 ROOT_URLCONF = 'atbapi.urls'
 
 TEMPLATES = [

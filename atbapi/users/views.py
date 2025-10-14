@@ -156,7 +156,7 @@ def get_user_info_from_access_token(access_token):
         return None
 
 class GoogleLoginAPIView(APIView):
-    parser_classes = [JSONParser, FormParser, MultiPartParser]
+    parser_classes = [JSONParser]
     def post(self, request):
         access_token = request.data.get("token")
         print('---------token---------',access_token)
