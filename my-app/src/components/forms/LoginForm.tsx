@@ -85,16 +85,18 @@ const LoginForm: React.FC = () => {
                     >
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
-
-                    <button
-                        onClick={(event) => {
-                            event.preventDefault();
-                            loginUseGoogle();
-                        }}
-                        className="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-4 py-2 rounded w-full mt-4"
-                    >
-                        {'LoginGoogle'}
-                    </button>
+                    <div className="flex justify-center mt-4">
+                        <button
+                            onClick={(event) => {
+                                event.preventDefault();
+                                loginUseGoogle();
+                            }}
+                            className="flex items-center justify-center bg-white border border-gray-300 hover:shadow-md transition p-2 rounded-full w-10 h-10"
+                            title="Login with Google"
+                        >
+                            <img src="src/icons/google.png" alt="Google Login" className="w-5 h-5" />
+                        </button>
+                    </div>
                 </Form.Item>
             </Form>
         </>
