@@ -57,3 +57,8 @@ py manage.py shell
 from topics.seed_topics import run
 run()
 ```
+
+## Filters data
+```
+pip install django-filter
+```
