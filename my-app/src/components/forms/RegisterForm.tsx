@@ -49,6 +49,7 @@ const RegisterForm: React.FC = () => {
             layout="vertical"
             onFinish={onFinish}
             style={{ width: "100%" }}
+            className={"bg-white dark:bg-gray-800"}
         >
             <Form.Item
                 label="Username"

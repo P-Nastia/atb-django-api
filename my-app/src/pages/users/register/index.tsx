@@ -47,11 +47,11 @@ const UserRegisterPage: React.FC = () => {
                     <div className="hidden md:block w-1/2 bg-yellow-500 py-10 px-10">
                         <h2 className="text-white font-bold text-2xl">Welcome!</h2>
                     </div>
-        <div className="w-full md:w-1/2 py-10 px-5 md:px-10 ">
+        <div className="w-full md:w-1/2 py-10 px-5 md:px-10 dark:bg-gray-800">
             {isLoading && <LoadingOverlay />}
             <div className="text-center mb-10">
-                <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
-                <p>Enter your information to register</p>
+                <h1 className="font-bold text-3xl text-gray-900 dark:text-white">REGISTER</h1>
+                <p className={"dark:text-gray-200"}>Enter your information to register</p>
             </div>
 
             {/*<ImageUploader*/}

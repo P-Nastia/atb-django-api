@@ -1,4 +1,4 @@
-import {Form, Input, type FormProps} from "antd";
+import {Form, type FormProps} from "antd";
 import {useLoginByGoogleMutation, useLoginMutation} from "../../services/userService.ts";
 import {useDispatch} from "react-redux";
 import {setTokens} from "../../store/authSlice.ts";
@@ -7,6 +7,8 @@ import type {ILoginRequest} from "../../types/users";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import {useGoogleLogin} from "@react-oauth/google";
 import LoadingOverlay from "../loading";
+import InputField from "../inputFormTemplate";
+import {useState} from "react";
 
 const LoginForm: React.FC = () => {
     const [form] = Form.useForm();
@@ -48,6 +50,16 @@ const LoginForm: React.FC = () => {
         },
     });
 
+    const [errors, setErrors] = useState<string[]>([]);
+
+    const validationChange = (isValid: boolean, fieldKey: string) => {
+        if (isValid && errors.includes(fieldKey)) {
+            setErrors(errors.filter(x => x !== fieldKey))
+        } else if (!isValid && !errors.includes(fieldKey)) {
+            setErrors(state => [...state, fieldKey])
+        }
+    };
+
     return (
         <>
             {(isLoading || isGoogleLoading)  && <LoadingOverlay />}
@@ -57,31 +69,45 @@ const LoginForm: React.FC = () => {
                 layout="vertical"
                 onFinish={onFinish}
                 style={{ width: "100%" }}
+                className={"bg-white dark:bg-gray-800"}
             >
-                <Form.Item
-                    label="Username"
+                <InputField
+                    label={"Username"}
                     name="username"
-                    rules={[
-                        { required: true, message: "Please enter your email" },
+                    placeholder="john@example.com"
+                    rules = {[{
+                        rule: 'regexp',
+                        value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+                        message: "Пошта є некоректна"
+                    },
+                        {
+                            rule: 'required',
+                            message: "Пошта є обов'язкова"
+                        }
                     ]}
-                >
-                    <Input placeholder="johnsmith@example.com" />
-                </Form.Item>
+                 onValidationChange={validationChange} />
 
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: "Please enter your password" }]}
-                >
-                    <Input.Password placeholder="********" />
-                </Form.Item>
+                <InputField
+                    onValidationChange={validationChange}
+                    label={"Password"}
+                    name="username"
+                    type={"password"}
+                    placeholder={"********"}
+                    rules={[
+                        {
+                            rule: "required",
+                            message:" Пароль є обов'язковим"
+                        }
+                    ]}
+                />
+
 
                 <Link to="/forgot-password">Forgot password?</Link>
 
                 <Form.Item>
                     <button
                         type="submit"
-                        className="bg-yellow-500 hover:bg-orange-600 transition text-white font-semibold px-4 py-2 rounded w-full mt-4"
+                        className="bg-yellow-500 hover:bg-orange-600 cursor-pointer transition text-white font-semibold px-4 py-2 rounded w-full mt-4"
                     >
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
@@ -94,7 +120,7 @@ const LoginForm: React.FC = () => {
                             className="flex items-center justify-center bg-white border border-gray-300 hover:shadow-md transition p-2 rounded-full w-10 h-10"
                             title="Login with Google"
                         >
-                            <img src="src/icons/google.png" alt="Google Login" className="w-5 h-5" />
+                            <img src="src/icons/google.png"  alt="Google Login" className="w-5 h-5 cursor-pointer" />
                         </button>
                     </div>
                 </Form.Item>
