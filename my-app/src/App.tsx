@@ -8,6 +8,7 @@ import ForgotPasswordPage from "./pages/users/resetPassword/forgotPasswordPage.t
 import ResetPasswordPage from "./pages/users/resetPassword/resetPasswordPage.tsx";
 import SuccessPage from "./pages/users/resetPassword/successPage.tsx";
 import UserLoginPage from "./pages/users/login";
+import NotFoundPage from "./pages/additional/NotFoundPage.tsx";
 
 function App() {
     return (
@@ -21,8 +22,8 @@ function App() {
                     <Route path={"forgot-password"} element={<ForgotPasswordPage/>} />
                     <Route path={"reset-password/:uid/:token"} element={<ResetPasswordPage/>} />
                     <Route path={"success-confirm"} element={<SuccessPage/>} />
-
                 </Route>
+                <Route path = "*" element={<NotFoundPage/>}/>
             </Routes>
         </>
     )
