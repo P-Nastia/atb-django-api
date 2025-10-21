@@ -90,7 +90,13 @@ export const userService = createApi({
         }),
         login: builder.mutation<ILoginResponse, ILoginRequest>({
             query: (credentials) => {
-                const formData = serialize(credentials);
+                const formData = new FormData();
+
+                Object.entries(credentials).forEach(([key, value]) => {
+                    if (value !== null && value !== undefined) {
+                        formData.append(key, value);
+                    }
+                });
 
                 return {
                     url: 'login/',
