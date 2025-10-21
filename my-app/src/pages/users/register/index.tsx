@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 //import ImageUploader from "../../../components/imageUploader";
 import InputField from "../../../components/inputFormTemplate";
 import {type IRegisterFormData, useRegisterUserMutation} from "../../../services/userService";
@@ -18,8 +18,9 @@ const UserRegisterPage: React.FC = () => {
         password_confirm: "",
         image: null,
     });
-    const[register,{isLoading}] = useRegisterUserMutation();
+    const[register,{isLoading, error: registerError}] = useRegisterUserMutation();
     const {executeRecaptcha} = useGoogleReCaptcha();
+    const [errors, setErrors] = useState<string[]>([]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -37,6 +38,14 @@ const UserRegisterPage: React.FC = () => {
             navigate('/');
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const validationChange = (isValid: boolean, fieldKey: string) => {
+        if (isValid && errors.includes(fieldKey)) {
+            setErrors(errors.filter((x) => x !== fieldKey));
+        } else if (!isValid && !errors.includes(fieldKey)) {
+            setErrors((state) => [...state, fieldKey]);
         }
     };
 
@@ -63,43 +72,90 @@ const UserRegisterPage: React.FC = () => {
                 onImageCropped={(file:any) => setFormData(prev => ({ ...prev, image: file }))}
             />
 
-            <div>
+            <form onSubmit={handleSubmit}>
+                {registerError && (
+                    <>
+                        <div
+                            className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:text-red-400"
+                            role="alert">
+                            <span className="font-medium">Перевірте правильність введених даних!</span>
+                        </div>
+                    </>
+                )}
                     <InputField
                         name="username" label="Nickname" placeholder="john_doe" value={formData.username} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Нікнейм є обов'язковим"
+                            }
+                        ]}
+                        onValidationChange={validationChange}
                     />
 
                     <InputField
                         name="first_name" label="First name" placeholder="John" value={formData.first_name} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Ім'я є обов'язкове"
+                            }
+                        ]}
+                        onValidationChange={validationChange}
                     />
 
                     <InputField
                         name="last_name" label="Last name" placeholder="Doe" value={formData.last_name} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Прізвище є обов'язкове"
+                            }
+                        ]}
                     />
 
                     <InputField
                         name="email" label="Email" type="email"  placeholder="johnsmith@example.com" value={formData.email} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Пошта є обов'язкова"
+                            }
+                        ]}
                     />
 
                     <InputField
                         name="password" label="Password" type="password" placeholder="********" value={formData.password} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Пароль є обов'язковим"
+                            }
+                        ]}
                     />
 
                     <InputField
                         name="password_confirm"  label="Confirm Password" type="password" placeholder="********" value={formData.password_confirm} onChange={handleChange}
+                        rules={[
+                            {
+                                rule: "required",
+                                message:" Пароль є обов'язковим"
+                            }
+                        ]}
                     />
-            </div>
 
             <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
-                    <button onClick={handleSubmit} className="block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-700 text-white rounded-lg px-3 py-3 font-semibold">
+                    <button type={"submit"} className="block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-700 text-white rounded-lg px-3 py-3 font-semibold">
                         REGISTER NOW
                     </button>
                 </div>
             </div>
+                </form>
         </div>
         </div>
                 </div>
-            </div>
+                </div>
     );
 };
 

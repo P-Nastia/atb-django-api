@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import InputField from "../../../components/inputFormTemplate";
 import LoadingOverlay from "../../../components/loading";
-import {useNavigate} from "react-router";
+import {Link, useNavigate} from "react-router";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import type {ILoginRequest} from "../../../types/users";
 import {useLoginByGoogleMutation, useLoginMutation} from "../../../services/userService.ts";
@@ -16,7 +16,7 @@ const UserLoginPage: React.FC = () => {
         username: "",
         password: "",
     });
-    const[login,{isLoading}] = useLoginMutation();
+    const[login,{isLoading, error: loginError}] = useLoginMutation();
     const {executeRecaptcha} = useGoogleReCaptcha();
     const [loginByGoogle, { isLoading: isGoogleLoading }] = useLoginByGoogleMutation();
 
@@ -87,8 +87,18 @@ const UserLoginPage: React.FC = () => {
                         </div>
 
                         <form onSubmit={handleSubmit}>
+                            {loginError && (
+                                <>
+                                    <div
+                                        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:text-red-400"
+                                        role="alert">
+                                        <span className="font-medium">Перевірте правильність введених даних!</span>
+                                    </div>
+                                </>
+                            )}
                             <InputField
-                                name="username" label="Nickname" placeholder="john_doe" value={formData.username} onChange={handleChange}
+                                name="username" label="Nickname" placeholder="john_doe" value={formData.username}
+                                onChange={handleChange}
                                 onValidationChange={validationChange}
                                 rules = {[
                                     {
@@ -108,6 +118,12 @@ const UserLoginPage: React.FC = () => {
                                     }
                                 ]}
                             />
+                            <Link
+                                to="/forgot-password"
+                                className="block text-sm text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300"
+                            >
+                                Forgot password?
+                            </Link>
 
                             <div className="flex -mx-3">
                                 <div className="w-full px-3 mb-5">
