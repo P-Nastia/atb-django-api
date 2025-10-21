@@ -31,6 +31,8 @@ py manage.py startapp api
 ```
 ## Install requirements
 ```
+pip freeze
+pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
 ## Install react vite
@@ -61,4 +63,11 @@ run()
 ## Filters data
 ```
 pip install django-filter
+```
+
+## Working posts
+```
+py manage.py startapp posts
+py manage.py makemigrations posts
+py manage.py migrate
 ```

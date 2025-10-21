@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'topics',
     'django_filters',
+    'posts',
 ]
 
 REST_FRAMEWORK = {
@@ -157,6 +158,10 @@ IMAGES_ROOT = BASE_DIR  / 'images'
 AVATARS_URL = '/avatars/'
 
 AVATARS_ROOT = BASE_DIR / 'avatars'
+
+VIDEOS_URL = '/videos/'
+
+VIDEOS_ROOT = BASE_DIR  / 'videos'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
