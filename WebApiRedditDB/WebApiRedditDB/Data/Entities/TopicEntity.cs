@@ -26,4 +26,5 @@ public class TopicEntity
     public long ? ParentId { get; set; }
     public TopicEntity? Parent { get; set; }
     public ICollection<TopicEntity>? Children { get; set; }
+    public ICollection<PostEntity>? Posts { get; set; }
 }
