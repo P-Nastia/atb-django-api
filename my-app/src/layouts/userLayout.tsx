@@ -33,6 +33,15 @@ const UserLayout: React.FC = () => {
                 <div className="flex items-center gap-4">
                     {user ? (
                         <>
+                            <Link
+                                to="/createPost"
+                                className="bg-purple-500 dark:bg-purple-600 hover:bg-purple-600 dark:hover:bg-purple-700
+             text-white font-extrabold text-2xl
+             w-10 h-10 flex items-center justify-center
+             rounded-full transition"
+                            >
+                                +
+                            </Link>
                             <div className="flex items-center gap-3">
                                 {user.image && (
                                     <img

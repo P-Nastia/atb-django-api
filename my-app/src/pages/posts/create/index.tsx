@@ -5,9 +5,12 @@ import {useNavigate} from "react-router";
 import type {IPostCreate} from "../../../types/posts";
 import {useGetRootTopicsQuery} from "../../../services/topicService.ts";
 import {useCreatePostMutation} from "../../../services/postService.ts";
+import {useAppSelector} from "../../../store";
 
 const CreatePostPage: React.FC = () => {
     const navigate = useNavigate();
+    const { user } = useAppSelector((state) => state.auth);
+
     const [formData, setFormData] = React.useState<IPostCreate>({
         title: "",
         body: "",
@@ -15,8 +18,9 @@ const CreatePostPage: React.FC = () => {
         video: null,
         video_url: "",
         topic_id: 0,
-        user_id: 1,
+        user_id: user!.id,
     });
+    console.log("FORMDATA",formData);
     const { data: topics, isLoading: isLoadingTopics } = useGetRootTopicsQuery();
     const [ create, {isLoading, error: isCreateError} ] = useCreatePostMutation();
 
