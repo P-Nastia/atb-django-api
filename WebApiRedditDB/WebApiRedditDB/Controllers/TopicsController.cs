@@ -13,14 +13,16 @@ namespace WebApiRedditDB.Controllers
     public class TopicsController(AppDbContext context,
         IMapper mapper) : ControllerBase
     {
-        [HttpGet("list")]
+        [HttpGet]
         public async Task<IActionResult> GetAllTopicsAsync()
         {
-            var model = await context.Topics.Where(t => t.ParentId == null)
+            var topics = await context.Topics
+                .Where(t => t.ParentId == null)
                 .OrderBy(t => t.Priority)
                 .ProjectTo<TopicItemModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
-            return Ok(model);
+
+            return Ok(topics);
         }
     }
 }

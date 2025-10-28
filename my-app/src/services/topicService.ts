@@ -3,7 +3,7 @@ import {createBaseQuery} from "../utils/createBaseQuery";
 import type {IParentTopic} from "../types/topics";
 
 export const topicService = createApi({
-    reducerPath: 'topicService',
+    reducerPath: 'api',
     baseQuery: createBaseQuery('topics'),
     tagTypes: ['Topics'],
 
