@@ -152,7 +152,7 @@ const CreatePostPage: React.FC = () => {
                             />
 
                             <InputField
-                                name="last_name" label="Last name" placeholder="Doe" value={formData.video_url} onChange={handleChange}
+                                name="video_url" label="Video url" placeholder="url" value={formData.video_url} onChange={handleChange}
                             />
 
                             <label htmlFor="topics"
