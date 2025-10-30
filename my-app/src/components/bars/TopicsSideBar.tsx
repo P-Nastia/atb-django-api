@@ -40,7 +40,7 @@ const TopicsSidebar: React.FC = () => {
 
     return (
         <aside
-            className={`h-screen left-0 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col border-r border-gray-200 dark:border-gray-800 overflow-y-auto px-3 py-4 transition-all duration-300 ${
+            className={`h-screen sticky left-0 left-0 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col border-r border-gray-200 dark:border-gray-800 overflow-y-auto px-3 py-4 transition-all duration-300 ${
                 collapsed ? "w-16" : "w-64"}`}
         >
             <div className="flex justify-end">

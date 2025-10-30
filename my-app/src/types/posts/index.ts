@@ -12,10 +12,10 @@ export interface IPostItem{
     id: number;
     title: string;
     body: string;
-    image?: File | null;
-    video?: File | null;
+    image?: string | null;
+    video?: string | null;
     video_url?: string;
-    created_at: Date | null;
+    created_at: Date;
     topic_id: number;
     topic_name: string;
 }

@@ -16,6 +16,11 @@ export const postService = createApi({
                     method: 'GET'
                 };
             },
+            transformResponse: (response: IPostItem[]) =>
+                response.map((post) => ({
+                    ...post,
+                    createdAt: new Date(post.created_at),
+                })),
             providesTags: ["Posts"]
         }),
 

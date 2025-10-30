@@ -22,7 +22,7 @@ const UserLayout: React.FC = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-            <header className="w-full py-2 px-6 bg-gray-50 dark:bg-gray-900 shadow-md flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
+            <header className="w-full sticky top-0 z-50 py-2 px-6 bg-gray-50 dark:bg-gray-900 shadow-md flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
                 <div className="hidden items-center gap-1 lg:flex">
                     <FontAwesomeIcon className={'text-4xl text-purple-500 dark:text-purple-400'} icon={faReddit} />
                     <Link to="/" className="text-2xl font-semibold font-['Comic_Sans_MS'] text-gray-900 dark:text-white">
@@ -87,7 +87,9 @@ const UserLayout: React.FC = () => {
             </header>
 
             <main className="flex flex-1 p-6 gap-6 bg-gray-50 dark:bg-gray-900">
-                <TopicsSidebar />
+                <div className="w-64 sticky top-0 h-screen">
+                    <TopicsSidebar />
+                </div>
                 <div className="flex-1">
                     <Outlet />
                 </div>

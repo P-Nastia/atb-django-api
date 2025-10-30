@@ -4,11 +4,13 @@ const RECAPTCHA_KEY = import.meta.env.VITE_RECAPTCHA_KEY;
 
 const MEDIA_BASE_URL_IMAGE = API_BASE_URL + '/images/';
 const IMAGE_BASE_URL = API_BASE_URL;
+const MEDIA_BASE_URL_VIDEO = API_BASE_URL + '/videos/';
 const APP_ENV = {
     API_BASE_URL,
     RECAPTCHA_KEY,
     IMAGE_BASE_URL,
-    MEDIA_BASE_URL_IMAGE
+    MEDIA_BASE_URL_IMAGE,
+    MEDIA_BASE_URL_VIDEO,
 }
 
 export { APP_ENV };
