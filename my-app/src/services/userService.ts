@@ -5,7 +5,7 @@ import type {
     ILoginResponse,
     IResetPasswordConfirm,
     IResetPasswordRequest,
-    IUserItem
+    IUserItem, IUserItemAsp
 } from "../types/users";
 import {serialize} from "object-to-formdata";
 
@@ -21,15 +21,15 @@ export interface IRegisterFormData {
 }
 
 export const userService = createApi({
-    reducerPath: 'userService',
+    reducerPath: 'api/users',
     baseQuery: createBaseQuery('users'),
     tagTypes: ['Users'],
 
     endpoints: (builder) => ({
-        getUsers: builder.query<IUserItem[], void>({
+        getUsers: builder.query<IUserItemAsp[], void>({
             query: () => {
                 return {
-                    url: '',
+                    url: 'list',
                     method: 'GET'
                 };
             },

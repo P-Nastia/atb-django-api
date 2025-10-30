@@ -15,6 +15,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(userService.middleware)
         .concat(topicService.middleware)
+        .concat(postService.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

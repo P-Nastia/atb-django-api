@@ -8,6 +8,14 @@ export interface IUserItem {
     image_small:string;
 }
 
+export interface IUserItemAsp {
+    id: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    image:string;
+}
+
 export interface ILoginResponse {
     refresh: string;
     access: string;

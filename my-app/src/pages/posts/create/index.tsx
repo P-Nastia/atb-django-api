@@ -10,7 +10,7 @@ import {useAppSelector} from "../../../store";
 const CreatePostPage: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAppSelector((state) => state.auth);
-
+    console.log("USER",user);
     const [formData, setFormData] = React.useState<IPostCreate>({
         title: "",
         body: "",
@@ -18,7 +18,7 @@ const CreatePostPage: React.FC = () => {
         video: null,
         video_url: "",
         topic_id: 0,
-        user_id: user!.id,
+        user_id: user?.id? user.id : 1,
     });
     console.log("FORMDATA",formData);
     const { data: topics, isLoading: isLoadingTopics } = useGetRootTopicsQuery();
@@ -40,7 +40,7 @@ const CreatePostPage: React.FC = () => {
         try {
             e.preventDefault();
             const result = await create(formData).unwrap();
-            console.log(result);
+            console.log("RESULT",result);
             navigate('/');
         } catch (error) {
             console.error(error);
