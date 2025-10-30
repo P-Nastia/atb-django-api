@@ -18,6 +18,8 @@ const UserLayout: React.FC = () => {
         navigate("/login");
     };
 
+    console.log("BASE_IMAGE",APP_ENV.MEDIA_BASE_URL_IMAGE);
+
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <header className="w-full py-2 px-6 bg-gray-50 dark:bg-gray-900 shadow-md flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
@@ -47,7 +49,7 @@ const UserLayout: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 {user.image && (
                                     <img
-                                        src={APP_ENV.IMAGE_BASE_URL + user.image}
+                                        src={APP_ENV.MEDIA_BASE_URL_IMAGE + user.image}
                                         alt={user.username}
                                         className="w-8 h-8 rounded-full border border-gray-300 dark:border-white"
                                     />

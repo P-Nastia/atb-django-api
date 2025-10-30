@@ -1,11 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const RECAPTCHA_KEY = import.meta.env.VITE_RECAPTCHA_KEY;
 
+
+const MEDIA_BASE_URL_IMAGE = API_BASE_URL + '/images/';
 const IMAGE_BASE_URL = API_BASE_URL;
 const APP_ENV = {
     API_BASE_URL,
     RECAPTCHA_KEY,
     IMAGE_BASE_URL,
+    MEDIA_BASE_URL_IMAGE
 }
 
 export { APP_ENV };

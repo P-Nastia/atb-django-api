@@ -1,5 +1,6 @@
 
 import type { IUserItemAsp} from "../../../types/users";
+import {APP_ENV} from "../../../env";
 
 interface Props{
     user:IUserItemAsp
@@ -13,7 +14,7 @@ const UserListItem: React.FC<Props>=({user})=>{
                     {user.id}
                 </th>
                 <td className="px-6 py-4">
-                    <img src={user.image} alt={user.last_name} width={80} />
+                    <img src={`${APP_ENV.MEDIA_BASE_URL_IMAGE}${user.image}`} alt={user.last_name} width={80} />
                 </td>
                 <td className="px-6 py-4">
                     {user.first_name} {user.last_name}
