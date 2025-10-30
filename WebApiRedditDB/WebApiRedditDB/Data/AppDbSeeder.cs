@@ -22,6 +22,7 @@ public static class AppDbSeeder
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
         var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
 
+        context.Database.SetCommandTimeout(60);
         context.Database.Migrate();
         if (!context.Topics.Any())
         {

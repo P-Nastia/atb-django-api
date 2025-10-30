@@ -16,12 +16,12 @@ namespace WebApiRedditDB.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllTopicsAsync()
         {
-            var topics = await context.Topics
-                .Where(t => t.ParentId == null)
-                .OrderBy(t => t.Priority)
-                .ProjectTo<TopicItemModel>(mapper.ConfigurationProvider)
-                .ToListAsync();
+            var topicsQuery = context.Topics
+              .Where(t => t.ParentId == null)
+              .OrderBy(t => t.Priority);
 
+            var topics= await topicsQuery.ProjectTo<TopicItemModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
             return Ok(topics);
         }
     }
