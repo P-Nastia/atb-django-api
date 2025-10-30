@@ -44,6 +44,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
